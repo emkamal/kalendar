@@ -5,12 +5,11 @@
 	padding: 10px;
 	position: absolute;
 	top: 30px;
-	z-index: 999;
+	z-index: 9999;
 	background: #fff;
 	box-shadow: 0 0 10px #ccc;
 }
-.kalendarBox:after {
-	content: "";
+.kalendarBoxArrow {
 	display: block;
 	width: 10px; height: 10px;
 	position: absolute;

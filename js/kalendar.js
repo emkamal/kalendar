@@ -17,8 +17,6 @@
 				animationStyle: "fade", // zoom, fade, none
 				showCloseButton: true,
 				showScrollBar: true,
-				swipeScroll: true,
-				showScrollHandler: true,
 				cellBackgroundColor: "",
 				cellTextColor: "",
 				hoverBackgroundColor: "",
@@ -43,10 +41,10 @@
 				var identifier = $(this).attr("id");
 				if(typeof identifier === 'undefined'){ identifier = index; }
 				
-				$(this).attr("data-index", identifier);
+				$(this).attr("data-index", identifier).addClass("kalendarInput");
 				$('body').append(buildCalendar($(this), identifier, o));
 				
-				$(this).on("click", function(){
+				$(this).on("focus", function(){
 					$(".kalendarBox").hide();
 					var kalendarBox = $("#kalendar"+identifier);
 					
@@ -56,59 +54,70 @@
 					thisHeight = $(this).outerHeight();
 					kalendarWidth = kalendarBox.outerWidth();
 					kalendarHeight = kalendarBox.outerHeight();
-					console.log($(this).attr("id")+": "+thisTopOffset+","+thisLeftOffset);
-					kalendarTop = kalendarLeft = 0;
+					kalendarTop = kalendarLeft = arrowTop = arrowLeft = 0;
 					
-					console.log(o.boxPosition);
 					if(o.boxPosition == "topLeft"){
 						kalendarTop = thisTopOffset - kalendarHeight - 10;
 						kalendarLeft = thisLeftOffset;
+						arrowTop = kalendarHeight-5; arrowLeft = (thisWidth/2) - 5;
 					}
 					else if(o.boxPosition == "topMid"){
 						kalendarTop = thisTopOffset - kalendarHeight - 10;
 						kalendarLeft = thisLeftOffset + (thisWidth/2) - (kalendarWidth/2);
+						arrowTop = kalendarHeight-5; arrowLeft = (kalendarWidth-thisWidth)/2+(thisWidth/2) - 5;
 					}
 					else if(o.boxPosition == "topRight"){
 						kalendarTop = thisTopOffset - kalendarHeight - 10;
-						kalendarLeft = thisLeftOffset - thisWidth;
+						kalendarLeft = thisLeftOffset - (kalendarWidth - thisWidth);
+						arrowTop = kalendarHeight-5; arrowLeft = (kalendarWidth - thisWidth)+(thisWidth/2) - 5;
 					}
 					else if(o.boxPosition == "leftTop"){
 						kalendarTop = thisTopOffset - 50;
 						kalendarLeft = thisLeftOffset - kalendarWidth - 10;
+						arrowTop = 45 + (thisHeight/2); arrowLeft = kalendarWidth-5;
 					}
 					else if(o.boxPosition == "leftMid"){
 						kalendarTop = thisTopOffset - (kalendarHeight/2);
 						kalendarLeft = thisLeftOffset - kalendarWidth - 10;
+						arrowTop = kalendarHeight/2 + thisHeight/2 - 5; arrowLeft = kalendarWidth-5;
 					}
 					else if(o.boxPosition == "leftBottom"){
 						kalendarTop = thisTopOffset - kalendarHeight + thisHeight + 50;
 						kalendarLeft = thisLeftOffset - kalendarWidth - 10;
+						arrowTop = kalendarHeight - 55 - (thisHeight/2); arrowLeft = kalendarWidth-5;
 					}
 					else if(o.boxPosition == "rightTop"){
 						kalendarTop = thisTopOffset - 50;
 						kalendarLeft = thisLeftOffset + thisWidth + 10;
+						arrowTop = 45 + (thisHeight/2); arrowLeft = -5;
 					}
 					else if(o.boxPosition == "rightMid"){
 						kalendarTop = thisTopOffset - (kalendarHeight/2);
 						kalendarLeft = thisLeftOffset + thisWidth + 10;
+						arrowTop = kalendarHeight/2 + thisHeight/2 - 5; arrowLeft = -5;
 					}
 					else if(o.boxPosition == "rightBottom"){
 						kalendarTop = thisTopOffset - kalendarHeight + thisHeight + 50;
 						kalendarLeft = thisLeftOffset + thisWidth + 10;
+						arrowTop = kalendarHeight - 55 - (thisHeight/2); arrowLeft = -5;
 					}
 					else if(o.boxPosition == "bottomRight"){
 						kalendarTop = thisTopOffset + thisHeight + 10;
-						kalendarLeft = thisLeftOffset - thisWidth;
+						kalendarLeft = thisLeftOffset - (kalendarWidth - thisWidth);
+						arrowTop = -5; arrowLeft = (kalendarWidth - thisWidth)+(thisWidth/2) - 5;
 					}
 					else if(o.boxPosition == "bottomMid"){
 						kalendarTop = thisTopOffset + thisHeight + 10;
 						kalendarLeft = thisLeftOffset + (thisWidth/2) - (kalendarWidth/2);
+						arrowTop = -5; arrowLeft = (kalendarWidth-thisWidth)/2+(thisWidth/2) - 5;
 					}
 					else{
 						kalendarTop = thisTopOffset + thisHeight + 10;
 						kalendarLeft = thisLeftOffset;
+						arrowTop = -5; arrowLeft = (thisWidth/2) - 5;
 					}
 					kalendarBox.css({ top: kalendarTop, left: kalendarLeft });
+					kalendarBox.find(".kalendarBoxArrow").eq(0).css({ top: arrowTop, left: arrowLeft });
 					
 					switch(o.animationStyle){
 						case "zoom": kalendarBox.show("fast"); break;
@@ -124,8 +133,19 @@
 				});
 				
 				$("body").on("click", ".kalendarDates td:not(.disabled) a", function(){
-					$(this).closest(".kalendarWrapper").find("*").removeClass("selectedDate");
-					$(this).closest(".kalendarWrapper").find("input[type='text']").eq(0).val($(this).data("date"));
+					$(this).closest(".kalendarBox").find("*").removeClass("selectedDate");
+					//$(this).closest(".kalendarBox").find("input[type='text']").eq(0).val($(this).data("date"));
+					targetId = $(this).closest(".kalendarBox").attr("id").replace("kalendar","");
+					
+					if(targetId === parseInt(targetId, 10)){
+						targetElement = $(".kalendarInput[data-index='"+targetId+"']");
+					}
+					else{
+						targetElement = $("#"+targetId);
+					}
+					
+					targetElement.val($(this).data("date"));
+					
 					$(this).parent().addClass("selectedDate");
 					
 					var kalendarBox = $(".kalendarBox");
@@ -136,34 +156,45 @@
 					}
 				});
 				
+				var clicky;
+				$(document).mousedown(function(e) {clicky = $(e.target);});
+				$(document).mouseup(function(e) {clicky = null;});
+				$(this).on("blur", function(e){ 
+					if ( clicky == null ) {
+						closeKalendar($(".kalendarBox")); 
+					}
+				});
+				
 				$(document).click(function(e) {
 					var kalendarBox = $(".kalendarBox");
 					if ( $(e.target).closest('.kalendarBox, .kalendarInput').length === 0 ) {
-						switch(o.animationStyle){
-							case "zoom": kalendarBox.hide("fast"); break;
-							case "fade": kalendarBox.fadeOut("fast"); break;
-							default: kalendarBox.hide(); break;
-						}
+						closeKalendar(kalendarBox);
 					}
 				});
 				
 				if(o.showCloseButton){
 					$("body").on("click", ".kalendarCloseButton", function(){
 						var kalendarBox = $(this).closest(".kalendarBox");
+						closeKalendar(kalendarBox);
 						
-						switch(o.animationStyle){
-							case "zoom": kalendarBox.hide("fast"); break;
-							case "fade": kalendarBox.fadeOut("fast"); break;
-							default: kalendarBox.hide(); break;
-						}
 					});
+				}
+				
+				function closeKalendar(obj){
+					switch(o.animationStyle){
+						case "zoom": obj.hide("fast"); break;
+						case "fade": obj.fadeOut("fast"); break;
+						default: obj.hide(); break;
+					}
 				}
 				
 				/* SCROLLING MECHANISM */
 				if(o.showScrollBar){
 					$(".kalendarScrollBar").each(function(){
 						var id = "#"+$(this).closest(".kalendarBox").attr("id");
-						$(this).height($(id+" .kalendarDatesWrapper").height()*($(id+" .kalendarScrollArea").height()-4) / $(id+" .kalendarTable").height());
+						$(id).show();
+						$(this).height($(id+" .kalendarDatesWrapper").height() * $(id+" .kalendarScrollArea").height() / $(id+" .kalendarTable").height());
+						$(id).hide();
 					});
 				
 					$(".kalendarDates").on("scroll", function(){
@@ -232,7 +263,7 @@
 					daysHeadingHtml += '<th class="noSelect">'+opt.dayShortLabel[d]+'</th>';
 				}
 				
-				var html = '<div class="kalendarBox '+opt.boxPosition+'" id="kalendar'+index+'" >'+
+				var html = '<div class="kalendarBox '+opt.boxPosition+'" id="kalendar'+index+'" ><div class="kalendarBoxArrow"></div>'+
 				closeButtonHtml+scrollAreaHtml+'<table class="kalendarHeading"><thead><tr><th colspan="7">'+opt.monthLongLabel[currentMonth]+' '+currentYear+'</th></tr><tr class="kalendarDaysHeading">'+daysHeadingHtml+'</tr></thead></table><div class="kalendarDatesWrapper"><div class="kalendarDates"><table class="kalendarTable"><tbody><tr>';
 				
 				var recentDate = currentDate - (currentDay - 1);
