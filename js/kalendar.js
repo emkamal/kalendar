@@ -8,7 +8,7 @@
 			//Set the default values, use comma to separate the settings, example:
 			var defaults = {
 				numOfLoadedDays: 180,
-				numOfInitialRows: 1,
+				numOfInitialRows: 2,
 				boxPosition: "bottomLeft", // bottomLeft, bottomMid, bottomRight, topLeft, topMid, topRight, leftTop, leftMid, leftBottom, rightTop, rightMid, rightBottom
 				dateFormat: "dd-mm-yyyy", // d, dd, m, mm, MONTH, MON, yy, yyyy
 				showDateHover: true,
@@ -40,11 +40,75 @@
     		return this.each(function(index) {
 				var o = options;
 				
-				$(this).wrap('<div class="kalendarWrapper" id="kalendarWrapper'+index+'">').after(buildCalendar($(this), index, o));
+				var identifier = $(this).attr("id");
+				if(typeof identifier === 'undefined'){ identifier = index; }
 				
-				$("body").on("click", ".kalendarInput", function(){
+				$(this).attr("data-index", identifier);
+				$('body').append(buildCalendar($(this), identifier, o));
+				
+				$(this).on("click", function(){
 					$(".kalendarBox").hide();
-					var kalendarBox = $(this).closest(".kalendarWrapper").find(".kalendarBox").eq(0);
+					var kalendarBox = $("#kalendar"+identifier);
+					
+					thisTopOffset = $(this).offset().top;
+					thisLeftOffset = $(this).offset().left;
+					thisWidth = $(this).outerWidth();
+					thisHeight = $(this).outerHeight();
+					kalendarWidth = kalendarBox.outerWidth();
+					kalendarHeight = kalendarBox.outerHeight();
+					console.log($(this).attr("id")+": "+thisTopOffset+","+thisLeftOffset);
+					kalendarTop = kalendarLeft = 0;
+					
+					console.log(o.boxPosition);
+					if(o.boxPosition == "topLeft"){
+						kalendarTop = thisTopOffset - kalendarHeight - 10;
+						kalendarLeft = thisLeftOffset;
+					}
+					else if(o.boxPosition == "topMid"){
+						kalendarTop = thisTopOffset - kalendarHeight - 10;
+						kalendarLeft = thisLeftOffset + (thisWidth/2) - (kalendarWidth/2);
+					}
+					else if(o.boxPosition == "topRight"){
+						kalendarTop = thisTopOffset - kalendarHeight - 10;
+						kalendarLeft = thisLeftOffset - thisWidth;
+					}
+					else if(o.boxPosition == "leftTop"){
+						kalendarTop = thisTopOffset - 50;
+						kalendarLeft = thisLeftOffset - kalendarWidth - 10;
+					}
+					else if(o.boxPosition == "leftMid"){
+						kalendarTop = thisTopOffset - (kalendarHeight/2);
+						kalendarLeft = thisLeftOffset - kalendarWidth - 10;
+					}
+					else if(o.boxPosition == "leftBottom"){
+						kalendarTop = thisTopOffset - kalendarHeight + thisHeight + 50;
+						kalendarLeft = thisLeftOffset - kalendarWidth - 10;
+					}
+					else if(o.boxPosition == "rightTop"){
+						kalendarTop = thisTopOffset - 50;
+						kalendarLeft = thisLeftOffset + thisWidth + 10;
+					}
+					else if(o.boxPosition == "rightMid"){
+						kalendarTop = thisTopOffset - (kalendarHeight/2);
+						kalendarLeft = thisLeftOffset + thisWidth + 10;
+					}
+					else if(o.boxPosition == "rightBottom"){
+						kalendarTop = thisTopOffset - kalendarHeight + thisHeight + 50;
+						kalendarLeft = thisLeftOffset + thisWidth + 10;
+					}
+					else if(o.boxPosition == "bottomRight"){
+						kalendarTop = thisTopOffset + thisHeight + 10;
+						kalendarLeft = thisLeftOffset - thisWidth;
+					}
+					else if(o.boxPosition == "bottomMid"){
+						kalendarTop = thisTopOffset + thisHeight + 10;
+						kalendarLeft = thisLeftOffset + (thisWidth/2) - (kalendarWidth/2);
+					}
+					else{
+						kalendarTop = thisTopOffset + thisHeight + 10;
+						kalendarLeft = thisLeftOffset;
+					}
+					kalendarBox.css({ top: kalendarTop, left: kalendarLeft });
 					
 					switch(o.animationStyle){
 						case "zoom": kalendarBox.show("fast"); break;
@@ -104,7 +168,12 @@
 				
 					$(".kalendarDates").on("scroll", function(){
 						var id = "#"+$(this).closest(".kalendarBox").attr("id");
-						$(id+" .kalendarScrollBar").css("top", ($(this).scrollTop()*$(id+" .kalendarDatesWrapper").height()/$(id+" .kalendarTable").height()));
+						
+						var topCount = $(this).scrollTop()*$(id+" .kalendarDatesWrapper").height()/$(id+" .kalendarTable").height();
+						if( topCount > ($(id+" .kalendarDatesWrapper").height()-$(id+" .kalendarScrollBar").height())){
+							topCount = ($(id+" .kalendarDatesWrapper").height()-$(id+" .kalendarScrollBar").height());
+						}
+						$(id+" .kalendarScrollBar").css("top", topCount);
 					});
 					
 					$("body").on("mousedown", ".kalendarScrollBar", function(e){
@@ -125,7 +194,9 @@
 							if(topOffset > parentTopOffset && bottomOffset < parentBottomOffset){
 								thisScrollBar.offset({ top:topOffset })
 							}
-							kalendarDates.scrollTop(thisScrollBar.position().top * ( $(id+" .kalendarTable").height()/$(id+" .kalendarDatesWrapper").height()) );
+							kalendarDates.scrollTop(
+								thisScrollBar.position().top * ( $(id+" .kalendarTable").height()/$(id+" .kalendarDatesWrapper").height()) 
+							);
 						});
 					});
 					$("body").on("mouseup", function(){
@@ -161,11 +232,13 @@
 					daysHeadingHtml += '<th class="noSelect">'+opt.dayShortLabel[d]+'</th>';
 				}
 				
-				var html = '<div class="kalendarBox '+opt.boxPosition+'" id="kalendar'+index+'" style="top: '+(obj.outerHeight()+10)+'px">'+
+				var html = '<div class="kalendarBox '+opt.boxPosition+'" id="kalendar'+index+'" >'+
 				closeButtonHtml+scrollAreaHtml+'<table class="kalendarHeading"><thead><tr><th colspan="7">'+opt.monthLongLabel[currentMonth]+' '+currentYear+'</th></tr><tr class="kalendarDaysHeading">'+daysHeadingHtml+'</tr></thead></table><div class="kalendarDatesWrapper"><div class="kalendarDates"><table class="kalendarTable"><tbody><tr>';
 				
 				var recentDate = currentDate - (currentDay - 1);
 				var recentYear = currentYear;
+				
+				if(opt.numOfInitialRows > 4){ opt.numOfInitialRows = 4; }
 				
 				if(recentDate >= 15){
 					recentDate -= 7*opt.numOfInitialRows;
@@ -174,10 +247,18 @@
 				else{
 					recentDate = daysInMonth[currentMonth-1] - (7*opt.numOfInitialRows) + recentDate;
 					var recentMonth = currentMonth-1;
+					
+					if(recentDate > daysInMonth[currentMonth-1]){
+						recentDate = recentDate - daysInMonth[currentMonth-1];
+						recentMonth = currentMonth;
+					}
 				}
 				
 				var monthMarker = currentDateClass = '';
 				var dayOfWeek = 1;
+				
+				opt.numOfLoadedDays = opt.numOfLoadedDays + (7-(opt.numOfLoadedDays%7))
+				
 				for(var i = 0;  i < opt.numOfLoadedDays; i++){
 					
 					dateClass = '';
@@ -200,8 +281,6 @@
 					if(opt.disabledDates.indexOf(""+recentDate+"-"+(recentMonth+1)+"-"+recentYear+"") != -1){
 						dateClass += 'holiday ';
 					}
-					
-					
 					
 					var dataDate = "";
 					dataDate = opt.dateFormat.replace("yyyy", recentYear);
@@ -265,11 +344,3 @@
 	});
 	
 })(jQuery);
-
-
-
-$(function() {
-    
-	$(".kalendarInput").kalendar();
-	
-});
