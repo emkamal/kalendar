@@ -148,7 +148,7 @@
 				
 				var closeButtonHtml = '';
 				if(opt.showCloseButton){
-					closeButtonHtml = '<a class="kalendarCloseButton">&times;</a>';
+					closeButtonHtml = '<a class="kalendarCloseButton noSelect">&times;</a>';
 				}
 				
 				var scrollAreaHtml = '';
@@ -158,7 +158,7 @@
 				
 				var daysHeadingHtml = '';
 				for(var d=0; d<7; d++){
-					daysHeadingHtml += '<th>'+opt.dayShortLabel[d]+'</th>';
+					daysHeadingHtml += '<th class="noSelect">'+opt.dayShortLabel[d]+'</th>';
 				}
 				
 				var html = '<div class="kalendarBox '+opt.boxPosition+'" id="kalendar'+index+'" style="top: '+(obj.outerHeight()+10)+'px">'+
@@ -224,7 +224,7 @@
 						dateHoverClass = 'dateHover';
 						dateHoverHtml = 'data-dateHover="'+addLeadingZero(recentDate)+' '+opt.monthLongLabel[recentMonth]+' '+recentYear+'';
 					}
-					html += '<a class="noselect '+dateHoverClass+'" data-date="'+dataDate+'" '+dateHoverHtml+'">'+monthMarker+recentDate+'</a>';
+					html += '<a class="noSelect '+dateHoverClass+'" data-date="'+dataDate+'" '+dateHoverHtml+'">'+monthMarker+recentDate+'</a>';
 					html += '</td>';
 				
 					

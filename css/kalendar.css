@@ -111,7 +111,7 @@
 	text-decoration: none !important;
 	transition: 0.25s;
 }
-.kalendarDates :not(.disabled) a:hover{ background: #d1bdd8; }
+.kalendarDates td:not(.disabled) a:hover{ background: #d1bdd8; }
 .kalendarDates td:not(.disabled) a.dateHover:after {
 	content: attr(data-dateHover);
 	display: block;
@@ -229,7 +229,7 @@
 }
 
 
-.noselect {
+.noSelect {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
