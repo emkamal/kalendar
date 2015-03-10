@@ -5,11 +5,13 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Kalendar jQuery Plugin</title>
-
+		<!--
 		<link href="css/bootstrap.min.css" rel="stylesheet">
 		<link href="css/kalendar.css" rel="stylesheet">
 		<link href="css/prism.css" rel="stylesheet">
 		<link href="css/demo.css" rel="stylesheet">
+		-->
+		<link href="css/unified.css" rel="stylesheet">
 	</head>
 	<body>
 		<nav class="navbar navbar-default navbar-fixed-top">
@@ -38,76 +40,8 @@
 		
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-md-6">
-					<h1>Script</h1>
-					<pre><code class="language-javascript">
-$(function() {
-	
-	/* These are the script which are being used to activate my Kalendar jquery plugin to each input type text beside */
-	$("#dateOfBirthInput").kalendar({
-		numOfLoadedDays: 180,
-		boxPosition: "rightTop", 
-		animationStyle: "zoom",
-		disabledDates: ["19-3-2015", "28-3-2015"], // for predefined holidays
-	});
-	$("#dateOfDeathInput").kalendar({
-		numOfLoadedDays: 500,
-		numOfInitialRows: 3,
-		disabledDaysOfWeek: [5,6], // days of week which are disabled
-		disabledDates: ["27-3-2015", "30-3-2015"],
-		boxPosition: "topMid", 
-		dateFormat: "d/m/yy",
-		animationStyle: "fade",
-		showDateHover: false,
-		monthLongLabel: ["January", "February", "Maart", "April", "May", "Juny", "July", "August", "September", "October", "November", "December"],
-		monthShortLabel: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-		dayShortLabel: ["Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo"],
-	});
-	$("#dateOfRebirthInput").kalendar({
-		numOfLoadedDays: 50,
-		numOfInitialRows: 0,
-		disabledDaysOfWeek: [7],
-		boxPosition: "leftTop", 
-		dateFormat: "dd MONTH yyyy",
-		animationStyle: "none",
-		showDateHover: false,
-		showScrollBar: false,
-		showCloseButton: false,
-	});
-});
-					</code></pre>
-					<h2>All available options</h2>
-					<pre><code class="language-javascript">
-var allAvailableOptions = {
-	numOfLoadedDays: 180,
-	numOfInitialRows: 2,
-	boxPosition: "bottomLeft", // bottomLeft, bottomMid, bottomRight, topLeft, topMid, topRight, leftTop, leftMid, leftBottom, rightTop, rightMid, rightBottom
-	dateFormat: "dd-mm-yyyy", // d, dd, m, mm, MONTH, MON, yy, yyyy
-	showDateHover: true,
-	disabledDaysOfWeek: [6,7],
-	disabledDates: ["9-3-2015", "30-3-2015"],
-	animationStyle: "fade", // zoom, fade, none
-	showCloseButton: true,
-	showScrollBar: true,
-	cellBackgroundColor: "",
-	cellTextColor: "",
-	hoverBackgroundColor: "",
-	hoverTextColor: "",
-	selectedBackgroundColor: "",
-	selectedTextColor: "",
-	disabledBackgroundColor: "",
-	disabledTextColor: "",
-	holidayBackgroundColor: "",
-	holidayTextColor: "",
-	monthLongLabel: ["January", "February", "March", "April", "May", "Juny", "July", "August", "September", "October", "November", "December"],
-	monthShortLabel: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-	dayLongLabel: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-	dayShortLabel: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
-}
-					</code></pre>
-				</div>
-				<div class="col-md-6" style="position: fixed; right: 0;">
-					<h1>Sample form</h1>
+			<div class="col-md-6 formblock">
+					<h1>The Form</h1>
 					<form>
 						<div class="form-group">
 							<label for="fullNameInput">Full name</label>
@@ -161,6 +95,77 @@ var allAvailableOptions = {
 						<button type="submit" class="btn btn-default">Submit</button>
 					</form>
 				</div>
+				<div class="col-md-6 scriptblock">
+					<h1>The Script</h1>
+					<pre><code class="language-javascript">
+$(function() {
+	
+	/* These are the script which are being used to activate my Kalendar jquery plugin to each input type text beside */
+	$("#dateOfBirthInput").kalendar({
+		numOfLoadedDays: 180,
+		boxPosition: "rightTop", 
+		animationStyle: "zoom",
+		disabledDates: ["19-3-2015", "28-3-2015"], // for predefined holidays
+	});
+	$("#dateOfDeathInput").kalendar({
+		numOfLoadedDays: 500,
+		numOfInitialRows: 3,
+		disabledDaysOfWeek: [5,6], // days of week which are disabled
+		disabledDates: ["27-3-2015", "30-3-2015"],
+		boxPosition: "topMid", 
+		dateFormat: "d/m/yy",
+		animationStyle: "fade",
+		showDateHover: false,
+		monthLongLabel: ["January", "February", "Maart", "April", "May", "Juny", "July", "August", "September", "October", "November", "December"],
+		monthShortLabel: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+		dayShortLabel: ["Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo"],
+	});
+	$("#dateOfRebirthInput").kalendar({
+		numOfLoadedDays: 50,
+		numOfInitialRows: 0,
+		disabledDaysOfWeek: [7],
+		boxPosition: "leftTop", 
+		dateFormat: "dd MONTH yyyy",
+		animationStyle: "none",
+		showDateHover: false,
+		showScrollBar: false,
+		showCloseButton: false,
+	});
+});
+					</code></pre>
+					<h2>All available options</h2>
+					<pre><code class="language-javascript">
+var allAvailableOptions = {
+	numOfLoadedDays: 180,
+	numOfInitialRows: 2,
+	boxPosition: "bottomLeft", // bottomLeft, bottomMid, bottomRight, topLeft, topMid, topRight, leftTop, leftMid, leftBottom, rightTop, rightMid, rightBottom
+	dateFormat: "dd-mm-yyyy", // d, dd, m, mm, MONTH, MON, yy, yyyy
+	showDateHover: true,
+	disabledDaysOfWeek: [6,7],
+	disabledDates: ["9-3-2015", "30-3-2015"],
+	animationStyle: "fade", // zoom, fade, none
+	showCloseButton: true,
+	showScrollBar: true,
+	showScrollHandle: false,
+	swipeScroll: false,
+	cellBackgroundColor: "",
+	cellTextColor: "",
+	hoverBackgroundColor: "",
+	hoverTextColor: "",
+	selectedBackgroundColor: "",
+	selectedTextColor: "",
+	disabledBackgroundColor: "",
+	disabledTextColor: "",
+	holidayBackgroundColor: "",
+	holidayTextColor: "",
+	monthLongLabel: ["January", "February", "March", "April", "May", "Juny", "July", "August", "September", "October", "November", "December"],
+	monthShortLabel: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+	dayLongLabel: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+	dayShortLabel: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
+}
+					</code></pre>
+				</div>
+				
 			</div>
 		</div>
 		
@@ -168,14 +173,14 @@ var allAvailableOptions = {
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script>window.jQuery || document.write('<script src="js/jquery-1.11.1.min.js"><\/script>')</script>
 		<!-- Include all compiled plugins (below), or include individual files as needed -->
-		<script src="js/bootstrap.min.js"></script>
+		<!--
 		<script src="js/kalendar.js"></script>
 		<script src="js/prism.js"></script>
+		-->
+		<script src="js/unified.js"></script>
+		
 		<script>
 			$(function() {
-				
-				//$(".kalendarInput").kalendar();
-				/* */
 				$("#dateOfBirthInput").kalendar({
 					numOfLoadedDays: 180,
 					boxPosition: "rightTop", 

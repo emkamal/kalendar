@@ -1,4 +1,3 @@
-.kalendarWrapper{}
 .kalendarBox{
 	display: none;
 	width: 300px;
@@ -7,6 +6,8 @@
 	top: 30px;
 	z-index: 9999;
 	background: #fff;
+	-webkit-box-shadow: 0 0 10px #ccc;
+	-moz-box-shadow: 0 0 10px #ccc;
 	box-shadow: 0 0 10px #ccc;
 }
 .kalendarBoxArrow {
@@ -15,7 +16,11 @@
 	position: absolute;
 	z-index: 998;
 	background: #fff;
+	-webkit-box-shadow: 0 0 10px #ccc;
+	-moz-box-shadow: 0 0 10px #ccc;
 	box-shadow: 0 0 10px #ccc;
+	-webkit-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
 	transform: rotate(45deg);
 }
 .kalendarBox:before{
@@ -25,24 +30,9 @@
 	z-index: 10000;
 	background: #fff;
 }
-.kalendarBox.bottomLeft:after{ top: -5px; left: 50px; }
-.kalendarBox.bottomMid:after{ top: -5px; left: 50%; margin-right: -5px; }
-.kalendarBox.bottomRight:after{ top: -5px; right: 50px; }
 .kalendarBox.bottomLeft:before, .kalendarBox.bottomMid:before, .kalendarBox.bottomRight:before{ top: 0; left: 0; width: 100%; height: 10px;}
-
-.kalendarBox.topLeft:after{ bottom: -5px; left: 50px;  }
-.kalendarBox.topMid:after{ bottom: -5px; left: 50%; margin-right: -5px; }
-.kalendarBox.topRight:after{ bottom: -5px; right: 50px; }
 .kalendarBox.topLeft:before, .kalendarBox.topMid:before, .kalendarBox.topRight:before{ bottom: 0; left: 0; width: 100%; height: 10px; }
-
-.kalendarBox.leftTop:after{ top: 50px; right: -5px; }
-.kalendarBox.leftMid:after{ top: 50%; right: -5px; margin-top: -5px; }
-.kalendarBox.leftBottom:after{ bottom: 50px; right: -5px; }
 .kalendarBox.leftTop:before, .kalendarBox.leftMid:before, .kalendarBox.leftBottom:before{ top: 0; right: 0; width: 10px; height: 100%; }
-
-.kalendarBox.rightTop:after{ top: 65px; left: -5px; }
-.kalendarBox.rightMid:after{ top: 50%; left: -5px; margin-top: -5px; }
-.kalendarBox.rightBottom:after{ bottom: 65px; left: -5px; }
 .kalendarBox.rightTop:before, .kalendarBox.rightMid:before, .kalendarBox.rightBottom:before{ top: 0; left: 0; width: 10px; height: 100%; }
 
 .kalendarBox table{ width: 100%; }

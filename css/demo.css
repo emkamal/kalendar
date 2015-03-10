@@ -1,3 +1,12 @@
 body{
 	margin-top: 75px;
 }
+@media (min-width: 992px) {
+	.formblock{
+		position: fixed;
+	}
+	.scriptblock{
+		float: right;
+	}
+}
+
