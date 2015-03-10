@@ -264,7 +264,7 @@
 				}
 				
 				var html = '<div class="kalendarBox '+opt.boxPosition+'" id="kalendar'+index+'" ><div class="kalendarBoxArrow"></div>'+
-				closeButtonHtml+scrollAreaHtml+'<table class="kalendarHeading"><thead><tr><th colspan="7">'+opt.monthLongLabel[currentMonth]+' '+currentYear+'</th></tr><tr class="kalendarDaysHeading">'+daysHeadingHtml+'</tr></thead></table><div class="kalendarDatesWrapper"><div class="kalendarDates"><table class="kalendarTable"><tbody><tr>';
+				closeButtonHtml+scrollAreaHtml+'<table class="kalendarHeading"><thead><tr><th class="monthLabel" colspan="7">'+opt.monthLongLabel[currentMonth]+' '+currentYear+'</th></tr><tr class="kalendarDaysHeading">'+daysHeadingHtml+'</tr></thead></table><div class="kalendarDatesWrapper"><div class="kalendarDates"><table class="kalendarTable"><tbody><tr>';
 				
 				var recentDate = currentDate - (currentDay - 1);
 				var recentYear = currentYear;

@@ -5,13 +5,14 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Kalendar jQuery Plugin</title>
-		<!--
+		<!-- -->
 		<link href="css/bootstrap.min.css" rel="stylesheet">
 		<link href="css/kalendar.css" rel="stylesheet">
 		<link href="css/prism.css" rel="stylesheet">
 		<link href="css/demo.css" rel="stylesheet">
-		-->
+		<!-- --
 		<link href="css/unified.css" rel="stylesheet">
+		<!-- -->
 	</head>
 	<body>
 		<nav class="navbar navbar-default navbar-fixed-top">
@@ -173,12 +174,12 @@ var allAvailableOptions = {
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script>window.jQuery || document.write('<script src="js/jquery-1.11.1.min.js"><\/script>')</script>
 		<!-- Include all compiled plugins (below), or include individual files as needed -->
-		<!--
+		<!-- -->
 		<script src="js/kalendar.js"></script>
 		<script src="js/prism.js"></script>
-		-->
+		<!-- --
 		<script src="js/unified.js"></script>
-		
+		<!-- -->
 		<script>
 			$(function() {
 				$("#dateOfBirthInput").kalendar({
