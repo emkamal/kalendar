@@ -363,7 +363,7 @@
 					}
 				}
 				
-				html += "</table></div></div>"
+				html += "</table></div></div>";
 				
 				return html;
 			}
